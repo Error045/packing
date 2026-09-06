@@ -20,4 +20,12 @@ class Persona extends Model
     protected $casts = [
         'estado' => 'boolean',
     ];
+
+     public function recepciones()
+    {
+        return $this->hasMany(Recepcion::class, 'personas_id');
+    }
+
+
+
 }
