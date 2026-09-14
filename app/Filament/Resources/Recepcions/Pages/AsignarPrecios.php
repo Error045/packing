@@ -12,6 +12,7 @@ use Filament\Schemas\Schema;
 use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Hidden;
+use Filament\Forms\Components\Select;
 use Illuminate\Support\Facades\DB;
 use Filament\Notifications\Notification;
 
@@ -27,6 +28,8 @@ class AsignarPrecios extends Page implements HasForms
 
     public ?array $data = [];
 
+    private const XOF_ID_DEFAULT = 1;
+
     public function mount(int | string $record): void
     {
         $this->record = static::getResource()::getEloquentQuery()->findOrFail($record);
@@ -37,6 +40,7 @@ class AsignarPrecios extends Page implements HasForms
             ->join('productos as c', 'a.productos_id', '=', 'c.id')
             ->join('variedades as d', 'a.variedades_id', '=', 'd.id')
             ->join('calibres as e', 'a.calibres_id', '=', 'e.id')
+            ->leftJoin('productos_precios as h', 'h.contenedores_id', '=', 'a.id')
             ->where('a.recepciones_id', $this->record->id)
             ->where('g.estados_contenedores_id', 5)
             ->groupBy('a.calibres_id', 'e.nombre', 'c.nombre', 'd.nombre')
@@ -46,7 +50,8 @@ class AsignarPrecios extends Page implements HasForms
                 'c.nombre as producto',
                 'd.nombre as variedad',
                 DB::raw('SUM(g.kilos_netos) as netos'),
-                DB::raw('COUNT(a.id) as total_bines')
+                DB::raw('COUNT(a.id) as total_bines'),
+                DB::raw('MIN(h.id_xof) as id_xof')
             )
             ->orderBy('a.calibres_id', 'asc')
             ->get();
@@ -61,6 +66,7 @@ class AsignarPrecios extends Page implements HasForms
                     'kilos_netos' => $item->netos,
                     'total_bines' => $item->total_bines,
                     'precio' => 0,
+                    'id_xof' => self::XOF_ID_DEFAULT,
                 ];
             })->toArray(),
         ]);
@@ -78,6 +84,14 @@ class AsignarPrecios extends Page implements HasForms
                         TextInput::make('total_bines')->disabled(),
                         TextInput::make('kilos_netos')->disabled(),
                         TextInput::make('precio')->required()->numeric(),
+                        Select::make('id_xof')
+                            ->label('XOF')
+                            ->options(fn() => DB::table('xof')
+                                ->where('estado', 1)
+                                ->pluck('nombre', 'id'))
+                            ->searchable()
+                            ->native(false)
+                            ->placeholder('Seleccionar...'),
                     ])
                     ->addable(false)
                     ->deletable(false)
@@ -108,6 +122,7 @@ class AsignarPrecios extends Page implements HasForms
                         ],
                         [
                             'precio' => $item['precio'],
+                            'id_xof' => $item['id_xof'],
                             'estado' => 1,
                             'fecha' => now(),
                             'created_at' => now(),
