@@ -87,13 +87,35 @@
         </button>
     </div>
 
-    <div class="header">
+    <div class="header items-center" style="text-transform: uppercase;">
+        <div class="row">
+            <div class="justify-between items-center mb-6 border-b-2 border-gray-800 pb-4">
+                <div>
+                    {{-- <h1 style="font-size: 2rem; font-weight: 900; margin: 0; text-transform: uppercase;">El Chejo</h1>
+                    <p style="font-size: 1rem; color: #333; margin: 0;">RUT: 76.XXX.XXX-X<br>Casa Matriz: Ruta e-35
+                        Sitio
+                        N°
+                        7,La Higuera La Ligua</p> --}}
+                    <img src="{{ asset('images/logo.webp') }}" alt="Logo"
+                        style="width: 200px; height: auto; margin: 0;">
+                    <p style="font-size: 1rem; color: #333; margin: 0;">RUT: 76.XXX.XXX-X<br>Casa Matriz: Ruta e-35
+                        Sitio
+                        N°
+                        7,La Higuera La Ligua</p>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div style="text-transform: uppercase;">
         <div>
             <h2>RESUMEN DE VALORIZACIÓN</h2>
-            <p><strong>N° Recepción:</strong> #{{ $recepcion->id }}</p>
+            <p style="font-size: 0.85rem; margin: 0;"><strong>N° Recepción:</strong> #{{ $recepcion->id }}</p>
         </div>
         <div>
-            <p><strong>Fecha Impresión:</strong> {{ now()->format('d/m/Y H:i') }}</p>
+            <p style="font-size: 0.85rem; margin: 0;"><strong>Fecha Impresión:</strong> {{ now()->format('d/m/Y H:i') }}
+            </p>
         </div>
     </div>
 
@@ -109,7 +131,7 @@
         </div>
     </div>
 
-    <table>
+    <table style="font-size: 0.8rem; text-transform: uppercase;">
         <thead>
             <tr>
                 <th>Producto</th>
