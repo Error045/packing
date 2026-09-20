@@ -28,7 +28,8 @@ class AsignarPrecios extends Page implements HasForms
 
     public ?array $data = [];
 
-    private const XOF_ID_DEFAULT = 1;
+    //cambiar esto para que el valor por defecto no dependa de la PK en base de datos
+    private const XOF_ID_DEFAULT = 3;
 
     public function mount(int | string $record): void
     {

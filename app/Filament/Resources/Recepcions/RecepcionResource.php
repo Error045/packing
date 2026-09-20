@@ -38,7 +38,7 @@ class RecepcionResource extends Resource
         return RecepcionsTable::configure($table);
     }
 
-  public static function getRelations(): array
+    public static function getRelations(): array
     {
         return [
             // 🟢 2. REGISTRA EL RELATION MANAGER AQUÍ
@@ -49,18 +49,18 @@ class RecepcionResource extends Resource
     public static function getPages(): array
     {
         return [
-        'index' => Pages\ListRecepcions::route('/'),
-        'create' => Pages\CreateRecepcion::route('/create'),
-        'edit' => Pages\EditRecepcion::route('/{record}/edit'),
-        
-        // Nuevas páginas registradas:
-        'detalle' => Pages\ViewDetalleRecepcion::route('/{record}/detalle'),
-        'calibrado' => Pages\GestionarCalibrado::route('/{record}/calibrado'),
-        'precios' => Pages\AsignarPrecios::route('/{record}/precios'),
-        'valorizacion' => Pages\ResumenValorizacion::route('/{record}/valorizacion'), 
-        'resumen-valorizacion' => Pages\ResumenValorizacion::route('/{record}/resumen-valorizacion'),
-        
-        ];
+            'index' => Pages\ListRecepcions::route('/'),
+            'create' => Pages\CreateRecepcion::route('/create'),
+            'edit' => Pages\EditRecepcion::route('/{record}/edit'),
 
+            // Nuevas páginas registradas:
+            'detalle' => Pages\ViewDetalleRecepcion::route('/{record}/detalle'),
+            'calibrado' => Pages\GestionarCalibrado::route('/{record}/calibrado'),
+            'precios' => Pages\AsignarPrecios::route('/{record}/precios'),
+            'valorizacion' => Pages\ResumenValorizacion::route('/{record}/valorizacion'),
+            'resumen-valorizacion' => Pages\ResumenValorizacion::route('/{record}/resumen-valorizacion'),
+            'editar-valorizacion' => Pages\EditarValorizacion::route('/{record}/editar-valorizacion')
+
+        ];
     }
 }
